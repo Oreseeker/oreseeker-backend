@@ -1,0 +1,33 @@
+{
+  "name": "superplayer-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "-": "^0.0.1",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "node-postgres": "^0.6.2",
+    "reflect-metadata": "^0.2.2",
+    "ts-node": "^10.9.2",
+    "uid-generator": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/body-parser": "^1.19.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.6",
+    "@types/sequelize": "^4.28.20",
+    "@types/uid-generator": "^2.0.6",
+    "@types/validator": "^13.12.2",
+    "typescript": "^5.6.3"
+  }
+}
