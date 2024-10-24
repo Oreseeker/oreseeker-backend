@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node index.ts",
+    "dev": "nodemon index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -31,5 +33,9 @@
     "@types/uid-generator": "^2.0.6",
     "@types/validator": "^13.12.2",
     "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": "^20.14",
+    "npm": "^10.7.0"
   }
 }

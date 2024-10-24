@@ -6,7 +6,7 @@ import { setAccessToken } from '../utils/cookies';
 export const loginController: Handler = async (req, res, next) => {
   const { email, password } = req.body;
   const userAgent = req.header('User-Agent');
-  const ipAddress = req.headers['x-real-ip'];
+  const ipAddress = req.headers['x-real-ip'] as string;
 
   const data = await User.logIn(email, password, userAgent, ipAddress);
 

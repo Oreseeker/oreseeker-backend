@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16.3-alpine
+    container_name: "postgres"
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}'" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    env_file: ./.env
+    networks:
+      - app
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app
+    env_file: ./.env
+    develop:
+      watch:
+        - action: sync+restart
+          path: .
+          target: /app
+
+
+networks:
+  app:
+    driver: bridge
+

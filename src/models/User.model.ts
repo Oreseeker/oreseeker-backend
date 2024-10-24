@@ -78,7 +78,7 @@ export class User extends Model {
     return true;
   };
 
-  static async logIn(email: string, password: string, userAgent: string, ipAddress: string) {
+  static async logIn(email: string, password: string, userAgent: string | undefined, ipAddress: string) {
     const usr = await User.findOne({
       attributes: [
         'id',
@@ -121,3 +121,5 @@ export class User extends Model {
     });
   }
 }
+
+User.sync();
