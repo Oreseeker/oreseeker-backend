@@ -1,6 +1,6 @@
 import {Handler} from "express";
 
-import { User } from '../models/User';
+import { User } from '../models/User.model';
 import { getAccessToken } from '../utils/cookies';
 
 export const profileController: Handler = async (req, res, next) => {

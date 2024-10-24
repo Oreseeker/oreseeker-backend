@@ -1,4 +1,4 @@
-import { User } from "../models/User";
+import { User } from "../models/User.model";
 
 export const registrationController = async (req, res, next) => {
   const { username, password, email } = req.body;

@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "strictPropertyInitialization": false
+  },
+  "include": [
+    "*.model.ts"
+  ],
+  "extends": "../../tsconfig.json"
+}

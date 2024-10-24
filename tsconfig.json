@@ -4,6 +4,7 @@
     "noImplicitAny": true,
     "target": "es6",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  },
+    "emitDecoratorMetadata": true,
+    "strict": true
+  }
 }

@@ -1,6 +1,6 @@
-import {Handler} from "express";
+import { Handler } from "express";
 
-import { User } from '../models/User';
+import { User } from '../models/User.model';
 import { setAccessToken } from '../utils/cookies';
 
 export const loginController: Handler = async (req, res, next) => {
