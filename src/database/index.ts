@@ -11,4 +11,4 @@ export const sequelize = new Sequelize(POSTGRES_DB, POSTGRES_USER, POSTGRES_PASS
     path.join(__dirname, '..', 'models')
   ]
 });
-
+console.log('init')

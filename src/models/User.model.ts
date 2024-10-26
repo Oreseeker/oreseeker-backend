@@ -1,3 +1,4 @@
+// @ts
 import { Column, Table, Model, HasMany } from 'sequelize-typescript';
 import {passwordToHash, confirmPassword} from "../utils/password";
 import {DataTypes} from "sequelize";
@@ -12,6 +13,7 @@ export class User extends Model {
   })
   id: number;
 
+  // @ts-ignore
   @Column({
     type: DataTypes.STRING(250),
     allowNull: false,
@@ -122,4 +124,6 @@ export class User extends Model {
   }
 }
 
-User.sync();
+export default User;
+console.log('sync');
+// User.sync();

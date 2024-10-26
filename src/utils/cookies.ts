@@ -1,6 +1,11 @@
 import process = require('process');
-const { divideString } = require("./strings.js");
+import { divideString } from './strings';
 import type { Response, Request } from 'express';
+
+type Cookies = {
+  accessTokenOne: string;
+  accessTokenTwo: string;
+}
 
 export function setAccessToken(accessToken: string, res: Response) {
   const [ac1, ac2] = divideString(accessToken);
@@ -22,7 +27,7 @@ export function getAccessToken(req: Request) {
   return accessTokenOne + accessTokenTwo;
 }
 
-export function getCookies(req: Request) {
+export function getCookies(req: Request): Record<string, any> {
   const rawCookies = req.headers.cookie;
   if (!rawCookies) return {};
   const cookies = rawCookies.split('; ').reduce((accumulator, currentValue) => {
@@ -33,13 +38,7 @@ export function getCookies(req: Request) {
       accumulator[key] = value;
     }
     return accumulator;
-  }, {});
-
-  const { accessTokenOne, accessTokenTwo } = cookies;
-
-  if (accessTokenOne && accessTokenTwo) {
-    cookies.accessToken = accessTokenOne + accessTokenTwo;
-  }
+  }, {} as Record<string, unknown>);
 
   return cookies;
 }

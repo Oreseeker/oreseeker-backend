@@ -1,9 +1,9 @@
-import { sequelize } from '../database';
 import { DataTypes } from 'sequelize';
 import Generator = require("uid-generator");
-import {BeforeCreate, Column, ForeignKey, Model} from 'sequelize-typescript';
+import {BeforeCreate, Column, ForeignKey, Model, Table} from 'sequelize-typescript';
 import {User} from './User.model';
 
+@Table
 export class UserSession extends Model {
   @Column({
     type: DataTypes.BIGINT,
@@ -31,10 +31,12 @@ export class UserSession extends Model {
   accessToken: string;
 
   @BeforeCreate
-  generateToken(userSession: UserSession) {
+  static generateToken(userSession: UserSession) {
     userSession.accessToken = new Generator().generateSync();
   }
 }
 
-UserSession.sync();
+export default UserSession;
+
+// UserSession.sync();
 

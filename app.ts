@@ -1,10 +1,12 @@
+import './src/database';
 import bodyParser = require('body-parser');
 import express = require('express');
 import { acceptOnlyJSONBody } from "./src/middlewares";
 import { cors } from './src/middlewares/cors';
 import {router} from './src/routes';
 
-function createApp() {
+export function createApp() {
+
   const app = express();
 
   app.use(cors);
@@ -14,5 +16,3 @@ function createApp() {
 
   return app;
 }
-
-module.exports = { createApp };

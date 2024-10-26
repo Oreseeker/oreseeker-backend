@@ -22,5 +22,3 @@ export const loginController: Handler = async (req, res, next) => {
 
   res.send({ id, username });
 }
-
-module.exports = loginController;

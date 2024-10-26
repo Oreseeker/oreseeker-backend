@@ -16,5 +16,3 @@ export const profileController: Handler = async (req, res, next) => {
 
   res.send(user);
 }
-
-module.exports = profileController;

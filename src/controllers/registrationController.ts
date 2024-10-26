@@ -13,5 +13,3 @@ export const registrationController: Handler = async (req, res, next) => {
 
   res.sendStatus(409);
 }
-
-module.exports = registrationController;

@@ -1,10 +1,12 @@
 {
+  "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
     "noImplicitAny": true,
     "target": "es6",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strict": true
+    "strict": true,
+    "strictPropertyInitialization": false
   }
 }
