@@ -1,11 +1,11 @@
-import crs = require("cors");
+const crs = require("cors");
 
 const corsWhitelist = [
   'http://localhost:8080',
   'http://localhost'
 ];
 
-export const cors = crs(
+const cors = crs(
   {
     origin(origin, callback) {
       console.log('Request origin:', origin);
@@ -17,3 +17,5 @@ export const cors = crs(
     }
   }
 );
+
+module.exports = cors;

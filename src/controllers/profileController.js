@@ -1,9 +1,7 @@
-import {Handler} from "express";
+const User = require('../models/User.model');
+const { getAccessToken } = require('../utils/cookies');
 
-import { User } from '../models/User.model';
-import { getAccessToken } from '../utils/cookies';
-
-export const profileController: Handler = async (req, res, next) => {
+const profileController = async (req, res, next) => {
   const accessToken = getAccessToken(req);
   console.log('PROFILE_CONTROLLER');
 

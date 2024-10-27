@@ -1,6 +1,4 @@
-import { Handler } from 'express';
-
-export const acceptOnlyJSONBody: Handler = (req, res, next) => {
+const acceptOnlyJSONBody = (req, res, next) => {
   if (req.method === 'GET') {
     next();
     return;
@@ -13,3 +11,5 @@ export const acceptOnlyJSONBody: Handler = (req, res, next) => {
   }
   next();
 }
+
+module.exports = acceptOnlyJSONBody;

@@ -1,7 +1,6 @@
-import { User } from "../models/User.model";
-import {Handler} from 'express';
+const User = require("../models/User.model");
 
-export const registrationController: Handler = async (req, res, next) => {
+const registrationController = async (req, res, next) => {
   const { username, password, email } = req.body;
 
   const status = await User.register(username, email, password);
@@ -13,3 +12,5 @@ export const registrationController: Handler = async (req, res, next) => {
 
   res.sendStatus(409);
 }
+
+module.exports = registrationController;
