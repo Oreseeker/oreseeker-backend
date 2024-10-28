@@ -1,4 +1,5 @@
 require('./src/database');
+require('./src/models/sync');
 const bodyParser = require('body-parser');
 const express = require('express');
 const acceptOnlyJSONBody = require('./src/middlewares/acceptOnlyJSONBody');

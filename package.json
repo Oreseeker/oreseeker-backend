@@ -12,7 +12,7 @@
   "description": "",
   "dependencies": {
     "-": "^0.0.1",
-    "@oreseeker/users": "github:Oreseeker/Users",
+    "@oreseeker/users": "git+https://oreseeker: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@github.com/oreseeker/Users#master",
     "@types/cookie": "^0.6.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",

@@ -1,11 +1,11 @@
-const sequelize = require('../database')
+const { sequelize } = require('../database');
 const { DataTypes, Model } = require('sequelize');
 
-class Images extends Model {
+class Image extends Model {
 
 }
 
-Images.init({
+Image.init({
   id: {
     type: DataTypes.BIGINT,
     primaryKey: true,
@@ -15,4 +15,4 @@ Images.init({
   sequelize
 });
 
-module.exports = Images;
+module.exports = Image;

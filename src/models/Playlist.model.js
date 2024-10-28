@@ -1,13 +1,13 @@
-const sequelize = require('../database')
+const { sequelize }  = require('../database')
 const { DataTypes, Model } = require('sequelize');
 const { User } = require("@oreseeker/users");
 
-class Playlists extends Model {
+class Playlist extends Model {
   /**
    * @param {number} userId
    * */
   static getUserPlaylists(userId) {
-    return Playlists.findAll({
+    return Playlist.findAll({
       include: [
         {
           model: User,
@@ -20,7 +20,7 @@ class Playlists extends Model {
   }
 }
 
-Playlists.init({
+Playlist.init({
   id: {
     type: DataTypes.BIGINT,
     primaryKey: true,
@@ -39,4 +39,4 @@ Playlists.init({
   sequelize
 });
 
-module.exports = Playlists;
+module.exports = Playlist;

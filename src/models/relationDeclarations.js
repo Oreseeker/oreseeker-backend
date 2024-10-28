@@ -1,12 +1,25 @@
-const { Users } = require('@oreseeker/users');
-const Playlists = require('./Playlists.model');
+const { User } = require('@oreseeker/users');
+const Image = require('./Image.model');
+const Playlist = require('./Playlist.model');
+const PlaylistTrack = require('./PlaylistTrack.model');
+const Track = require('./Track.model');
 
-Users.hasMany(Playlists, {
+User.hasMany(Playlist, {
   foreignKey: 'ownerId',
   targetKey: 'id'
 });
 
-Images.hasOne(Playlists, {
+Image.hasOne(Playlist, {
   foreignKey: 'imageId',
   targetKey: 'id'
 });
+
+Track.hasMany(PlaylistTrack, {
+  foreignKey: 'trackId',
+  targetKey: 'id',
+});
+
+Playlist.hasMany(PlaylistTrack, {
+  foreignKey: 'playlistId',
+  targetKey: 'id',
+})
