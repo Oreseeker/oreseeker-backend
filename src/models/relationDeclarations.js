@@ -4,8 +4,8 @@ const Playlist = require('./Playlist.model');
 const PlaylistTrack = require('./PlaylistTrack.model');
 const Track = require('./Track.model');
 
-User.hasMany(Playlist, {
-  foreignKey: 'ownerId',
+Playlist.belongsTo(User, {
+  foreignKey: 'ownerUserId',
   targetKey: 'id'
 });
 

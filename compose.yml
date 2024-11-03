@@ -12,6 +12,8 @@ services:
       - app
     ports:
       - "5432:5432"
+    volumes:
+      - "db:/home/volumes/superplayer-backend-volumes"
 
   backend:
     build:
@@ -28,9 +30,16 @@ services:
         - action: sync+restart
           path: .
           target: /app
+          ignore:
+            - curl/
+    ports:
+      - "3000:3000"
 
 
 networks:
   app:
     driver: bridge
+
+volumes:
+  db:
 

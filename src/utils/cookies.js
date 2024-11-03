@@ -15,7 +15,9 @@ function getCookies(req) {
       accumulator[key] = value;
     }
     return accumulator;
-  });
+  }, {});
 
   return cookies;
 }
+
+module.exports = { getCookies, getAccessToken };
