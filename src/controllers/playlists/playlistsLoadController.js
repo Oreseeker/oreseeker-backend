@@ -1,5 +1,5 @@
-const { getCookies } = require('../utils/cookies');
-const Playlist = require('../models/Playlist.model');
+const { getCookies } = require('../../utils/cookies');
+const Playlist = require('../../models/Playlist.model');
 
 
 module.exports = async (req, res, next) => {

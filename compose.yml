@@ -39,7 +39,7 @@ services:
 networks:
   app:
     driver: bridge
-
+    name: 'superplayer-app-network'
 volumes:
   db:
 

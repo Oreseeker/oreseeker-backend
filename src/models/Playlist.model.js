@@ -1,8 +1,7 @@
 const { sequelize }  = require('../database')
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, where} = require('sequelize');
 const { User } = require("@oreseeker/users");
-const PlaylistTrack = require('./PlaylistTrack.model');
-const PlaylistTrack = require('./Track.model');
+const Track = require('./Track.model');
 
 class Playlist extends Model {
   /**
@@ -14,7 +13,7 @@ class Playlist extends Model {
         {
           model: User,
           where: {
-            id: userId,
+            id: userId
           }
         }
       ]
@@ -23,22 +22,32 @@ class Playlist extends Model {
 
   static getPlaylist(playlistId) {
     return Playlist.findOne({
-      include: [
-        {
-          model: PlaylistTrack,
-          where: {
-            id: playlistId,
-          },
-          include: [
-            {
-              model: Track,
-              where: {
-                id: ''
-              }
-            }
-          ]
-        }
-      ]
+      where: {
+        id: playlistId,
+        include: [
+          Track,
+        ]
+      }
+    });
+  }
+
+  static getNumberOfUserPlaylists(userId) {
+    return Playlist.count({
+      where: {
+        ownerUserId: userId,
+      }
+    });
+  }
+
+  static updatePlaylist(playlistId, { title }) {
+    return Playlist.update(
+    {
+      title,
+    },
+    {
+      where: {
+        id: playlistId
+      }
     });
   }
 }

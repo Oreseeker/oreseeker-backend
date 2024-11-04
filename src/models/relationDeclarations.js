@@ -1,7 +1,6 @@
 const { User } = require('@oreseeker/users');
 const Image = require('./Image.model');
 const Playlist = require('./Playlist.model');
-const PlaylistTrack = require('./PlaylistTrack.model');
 const Track = require('./Track.model');
 
 Playlist.belongsTo(User, {
@@ -14,12 +13,8 @@ Image.hasOne(Playlist, {
   targetKey: 'id'
 });
 
-Track.hasMany(PlaylistTrack, {
-  foreignKey: 'trackId',
-  targetKey: 'id',
+Track.belongsToMany(Playlist, {
+  through: 'playlist_track',
+  sourceKey: 'id',
+  targetKey: 'id'
 });
-
-Playlist.hasMany(PlaylistTrack, {
-  foreignKey: 'playlistId',
-  targetKey: 'id',
-})

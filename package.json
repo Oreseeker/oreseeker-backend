@@ -5,13 +5,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "pull:front": "cd public && git clone https://oreseeker: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@github.com/Oreseeker/superplayer.git && mv superplayer/* . && rm -rf superplayer && npm ci"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "-": "^0.0.1",
     "@oreseeker/users": "git+https://oreseeker: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@github.com/oreseeker/Users#master",
     "@types/cookie": "^0.6.0",
     "bcrypt": "^5.1.1",
