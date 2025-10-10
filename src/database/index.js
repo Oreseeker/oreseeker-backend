@@ -1,10 +1,13 @@
-const { Sequelize } = require('sequelize-typescript');
-
+const { Client } = require('pg');
 const { POSTGRES_HOST, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB } = process.env;
 
-const sequelize = new Sequelize(POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, {
+const client = new Client({
+  user: POSTGRES_USER,
+  password: POSTGRES_PASSWORD,
   host: POSTGRES_HOST,
-  dialect: 'postgres',
+  db: POSTGRES_DB,
 });
 
-module.exports = { sequelize };
+client.connect();
+
+module.exports = client;
