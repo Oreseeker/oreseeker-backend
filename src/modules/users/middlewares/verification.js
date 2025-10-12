@@ -1,4 +1,4 @@
-const { verify } = load('../model.js');
+const { verify } = require('../model.js');
 
 module.exports = async function (req, res) {
   const { verificationToken } = req.body;

@@ -1,4 +1,4 @@
-const { logInByToken } = load('../model.js');
+const { logInByToken } = require('../model.js');
 const cookies = load('@/utils/cookies.js');
 
 async function profileController(req, res, next) {

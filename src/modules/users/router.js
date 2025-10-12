@@ -1,15 +1,15 @@
-const registration = load("./middlewares/registration.js");
-const login = load("./middlewares/login.js");
-const profile = load("./middlewares/profile.js");
-const verification = load("./middlewares/verification");
-const signOut = load("./middlewares/signOut");
+const registration = require('./middlewares/registration.js');
+const login = require('./middlewares/login.js');
+const profile = require('./middlewares/profile.js');
+const verification = require('./middlewares/verification');
+const signOut = require('./middlewares/signOut');
 const {
   registrationValidator,
   loginValidator,
   authenticationValidator,
   verificationValidator,
   signOutValidator
-} = load('./validators');
+} = require('./validators');
 
 router.get('/profile', authenticationValidator, profile);
 

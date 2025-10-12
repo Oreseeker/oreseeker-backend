@@ -53,3 +53,4 @@ endif
 set number
 autocmd VimEnter * :packadd nerdtree
 autocmd VimEnter * :NERDTree SuperPlayerBackend
+autocmd VimEnter * :packadd vim-javascript

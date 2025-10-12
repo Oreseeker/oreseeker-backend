@@ -1,4 +1,4 @@
-const { register } = load('../model.js');
+const { register } = require('../model.js');
 const { successfulRegistrationHook } = load('@/utils/hooks');
 
 async function registrationController(req, res, next) {

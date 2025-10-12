@@ -1,4 +1,4 @@
-const { logIn } = load('../model.js');
+const { logIn } = require('../model.js');
 const cookies = load('@/utils/cookies.js');
 
 async function loginController(req, res, next) {

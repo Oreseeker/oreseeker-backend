@@ -1,4 +1,4 @@
-const { signOut } = load('../model.js');
+const { signOut } = require('../model.js');
 const { getAccessToken } = load('@/utils/cookies');
 
 async function signOutController(req, res) {

@@ -17,12 +17,12 @@ async function isUserRegistered(username, email) {
   const user = client.query(query, [username, email]);
 }
 
-async function createUser({ 
+async function createUser({
   username,
   password,
   email,
   verified = false,
-  verificationToken = passwordToHash(new Date().getTime().toString()), 
+  verificationToken = passwordToHash(new Date().getTime().toString()),
 }) {
   const passwordHash = passwordToHash(password);
 
@@ -46,15 +46,15 @@ async function createUser({
   return client.query(query, [username, passwordHash, email, verified, verificationToken]);
 }
 
-async register(username, email, password) {
+async function register(username, email, password) {
   const isRegistered = await isUserRegistered(username, email);
 
   if (isRegistered) return false;
 
-  return createUser({ username, email, password });
+  return createUser({ username, email, password })
       .then(() => true)
       .catch(() => false);
-};
+}
 
 async function createUserSession(userId, userAgent, ipAddress) {
   const query = `
@@ -98,7 +98,7 @@ async function logIn(email, password, userAgent, ipAddress) {
   const userSessionRes = createUserSession({ userId: usr.id, userAgent, ipAddress });
 
   console.log('userSessionRes', userSessionRes);
-  
+
   return { id: usr.id, accessToken: userSessionRes.accessToken, username: usr.username };
 }
 
@@ -130,26 +130,26 @@ async function logInByToken(accessToken) {
  * @return {boolean}
  * */
 async function validateSession(userId, accessToken, userAgent = '', ipAddress= '') {
-    const query = `
-      SELECT
-        USERS.ID
-      FROM 
-        USERS
-      LEFT JOIN
-        USES_SESSIONS
-      ON 
-        USER_SESSIONS.USER_ID = USERS.ID
-      WHERE
-        USER_SESSIONS.ACCESS_TOKEN = $1
-        AND USER_SESSIONS.USER_AGENT = $2
-        AND USER_SESSIONS.IP_ADDRESS = $3
-        AND USER_SESSIONS.ACTIVE = 1
-    `;
+  const query = `
+    SELECT
+      USERS.ID
+    FROM 
+      USERS
+    LEFT JOIN
+      USES_SESSIONS
+    ON 
+      USER_SESSIONS.USER_ID = USERS.ID
+    WHERE
+      USER_SESSIONS.ACCESS_TOKEN = $1
+      AND USER_SESSIONS.USER_AGENT = $2
+      AND USER_SESSIONS.IP_ADDRESS = $3
+      AND USER_SESSIONS.ACTIVE = 1
+  `;
 
-    return client.query(query, [accessToken, userAgent, ipAddress, active])
-      .then(res => !!res.rows.length)
-      .catch(false);
-  }
+  return client.query(query, [accessToken, userAgent, ipAddress, active])
+    .then(res => !!res.rows.length)
+    .catch(false);
+}
 
 async function verify(verificationToken) {
   const query = `
@@ -200,13 +200,12 @@ function signOut(accessToken) {
 module.exports = {
   isUserRegistered,
   validateSession,
-  getVerificationToken, 
+  getVerificationToken,
   verify,
   validateSession,
-  register
-  isUserRegistered,
-  createUser,
+  register,
   createUserSession,
   logInByToken,
   signOut,
+  createUser,
 };
