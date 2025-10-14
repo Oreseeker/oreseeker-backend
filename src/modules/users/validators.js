@@ -1,6 +1,6 @@
 const { checkSchema } = require('express-validator');
 const { getAccessToken, getCookies } = load('@/utils/cookies');
-const { validateSession } = require('../model.js');
+const { validateSession } = require('./model.js');
 
 const registrationValidator = async (req, res, next) => {
   const result = await checkSchema({

@@ -1,4 +1,5 @@
 require('./globals')
+require('./src/core/migrations');
 const bodyParser = require('body-parser');
 const express = require('express');
 const acceptOnlyJSONBody = require('./src/middlewares/acceptOnlyJSONBody');

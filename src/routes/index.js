@@ -1,5 +1,5 @@
 const express = require('express');
-const { authenticationValidator } = require('@oreseeker/users')
+const { authenticationValidator } = load('@/modules/users/validators.js');
 const { router: userRouter } = load('@/modules/users');
 //const playlistsRouter = require('./playlists');
 

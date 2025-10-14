@@ -1,43 +1,32 @@
 const client = load('@/database');
+const fs = require('fs');
 
 class MigrationsManager {
   #migrationsTableTitle = 'MIGRATIONS';
   
-  async #checkTableExistance() {
-    const query = `
-      SELECT EXISTS (
-         SELECT FROM 
-          information_schema.tables 
-         WHERE 
-          table_name = ${this.#migrationsTableTitle}
-      )
-    `;
+ async init() {
+    await this.#createTable();
 
-    const res = await client.query(query);
-    console.log('res', res);
-    return res;
-  }
-
-  async init() {
-    this.#createTable();
-
-    this.runMigrations();
+    await this.runMigrations();
   }
 
   #createTable() {
     const query = `
-      CREATE TABLE [IF NOT EXISTS] ${this.#migrationsTableTitle}(
-       ID BIGINT UNSIGNED NOT NULL PRIMARY KEY
-       TITLE TEXT STRING NOT NULL
+      CREATE TABLE IF NOT EXISTS ${this.#migrationsTableTitle}(
+       ID BIGINT NOT NULL PRIMARY KEY,
+       TITLE TEXT NOT NULL
      )    
     `;
     return client.query(query);
   }
 
   async runMigrations() {
-    const files = fs.readDirSync(resolve('@/migrations')); 
-    const responses = await Promise.all(files.map(fl => this.#isMigrationInstalled(fl)));
+    const files = fs.readdirSync(resolve('@/migrations')); 
+    console.log('files', files);
+    const responses = await Promise.all(files.map(fl => this.#isMigrationInstalled(fl.split('.')[0])));
+    console.log('responses', responses);
     const uninstalledMigrations = responses.filter(r => !r);
+    console.log('uninstalledMigrations', uninstalledMigrations);
     for (let i = 0; i < uninstalledMigrations.length; i++) {
       await this.#installMigration(uninstalledMigrations[i]);
     }
@@ -47,7 +36,7 @@ class MigrationsManager {
 
   }
 
-  #isMigrationInstalled(migrationTitle) {
+  async #isMigrationInstalled(migrationTitle) {
     const query = `
       SELECT EXISTS(
         SELECT 
@@ -55,9 +44,11 @@ class MigrationsManager {
         FROM
           ${this.#migrationsTableTitle}
         WHERE
-          TITLE = ${migrationTitle}
+          TITLE = $1
       )
     `;
+    const response = await client.query(query, [migrationTitle]);
+    return !!response.rowCount;
   }
 
   #installMigration(file) {
@@ -65,3 +56,6 @@ class MigrationsManager {
     return client.query(query);
   }
 }
+
+const migrationsManager = new MigrationsManager();
+migrationsManager.init();

@@ -1,5 +1,4 @@
 const { register } = require('../model.js');
-const { successfulRegistrationHook } = load('@/utils/hooks');
 
 async function registrationController(req, res, next) {
   const { username, password, email } = req.body;
@@ -8,7 +7,6 @@ async function registrationController(req, res, next) {
 
   if (status) {
     res.sendStatus(200);
-    successfulRegistrationHook.execute()
     return;
   }
 
