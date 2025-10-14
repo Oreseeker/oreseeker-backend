@@ -5,8 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "pull:front": "cd public && git clone https://oreseeker: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@github.com/Oreseeker/superplayer.git && mv superplayer/* . && rm -rf superplayer && npm ci"
+    "dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
