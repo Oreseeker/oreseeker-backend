@@ -1,9 +1,9 @@
 const { register } = require('../model.js');
 
 async function registrationController(req, res, next) {
-  const { username, password, email } = req.body;
+  const { username, password, email, invitationCode } = req.body;
 
-  const status = await register(username, email, password);
+  const status = await register({ username, email, password, invitationCode });
 
   if (status) {
     res.sendStatus(200);

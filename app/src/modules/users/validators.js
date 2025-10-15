@@ -1,10 +1,14 @@
 const { checkSchema } = require('express-validator');
 const { getAccessToken, getCookies } = load('@/utils/cookies');
 const { validateSession } = require('./model.js');
+const { isEmailValid, isUsernameValid, isInvitationCodeValid, isPasswordValid } = load('@/utils/validators');
 
 const registrationValidator = async (req, res, next) => {
+  const { username, email, invitationCode, password } = req.body;
+  const isUsernameValid = typeof username === 'string' && username.length >= 3 && username.length <= 15;
+  const isEmailValid
   const result = await checkSchema({
-    username: {
+    username
       isString: {
         errorMessage: 'Username is required',
       },
@@ -19,6 +23,12 @@ const registrationValidator = async (req, res, next) => {
     },
     email: {
       isEmail: true,
+      in: 'body'
+    },
+    invitationCode: {
+      isString: {
+        errorMessage: 'Invitation code is required',
+      },
       in: 'body'
     },
     password: {
@@ -48,27 +58,15 @@ const registrationValidator = async (req, res, next) => {
 }
 
 const loginValidator = async (req, res, next) => {
-  const result = await checkSchema({
-    email: {
-      isEmail: true,
-      in: 'body'
-    },
-    password: {
-      in: 'body'
-    }
-  }).run(req);
+  const { email, password } = req.body;
 
-  const isError = !result.every(i => i.isEmpty())
+  const isEmailValid = typeof email === 'string' && email.includes('@');
+  const isPasswordValid = typeof password === 'string' && !!password.length;
+  
+  const isValid = isEmailValid && isPasswordValid;
 
-  if (isError) {
-    const rs = result.reduce((acc, value) => {
-      if (!value.errors.length) return acc;
-      // TODO приватное свойство, надо поменять
-      acc.push(value.errors);
-      return acc;
-    }, []);
-
-    res.status(400).send(rs);
+  if (!isValid) {
+    res.status(400).send({ message: 'Invalid email or password' });
     return;
   }
 
@@ -96,26 +94,11 @@ const authenticationValidator = async (req, res, next) => {
 }
 
 async function verificationValidator(req, res, next) {
-  const result = await checkSchema({
-    verificationToken: {
-      in: 'body',
-      isString: {
-        errorMessage: 'Must be a string',
-      }
-    },
-  }).run(req);
+  const { verificationToken } = req.body; 
+  const isValid = !!verificationToken && typeof verificationToken === 'string';
 
-  const isError = !result.every(i => i.isEmpty())
-
-  if (isError) {
-    const rs = result.reduce((acc, value) => {
-      if (!value.errors.length) return acc;
-      // TODO приватное свойство, надо поменять
-      acc.push(value.errors);
-      return acc;
-    }, []);
-
-    res.status(400).send(rs);
+  if (!isValid) {
+    res.status(400).send({ message: 'verificationToken must be a string' });
     return;
   }
 
@@ -126,7 +109,6 @@ function signOutValidator(req, res, next) {
   const accessToken = getAccessToken(req);
 
   if (!accessToken) {
-    infoLogger.info('[Verification validator] access token is missing, rejecting.');
     res.send(400);
     return;
   }

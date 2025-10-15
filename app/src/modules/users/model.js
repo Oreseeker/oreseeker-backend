@@ -23,6 +23,7 @@ async function createUser({
   email,
   verified = false,
   verificationToken = passwordToHash(new Date().getTime().toString()),
+  invitationCode,
 }) {
   const passwordHash = passwordToHash(password);
 
@@ -33,17 +34,19 @@ async function createUser({
         PASSWORD_HASH,
         EMAIL,
         VERIFIED,
-        VERIFICATION_TOKEN
+        VERIFICATION_TOKEN,
+        INVITATION_CODE
       ) VALUES (
         $1,
         $2,
         $3,
         $4,
-        $5
+        $5,
+        $6
       )
   `;
 
-  return client.query(query, [username, passwordHash, email, verified, verificationToken]);
+  return client.query(query, [username, passwordHash, email, verified, verificationToken, invitationCode]);
 }
 
 async function register(username, email, password) {
