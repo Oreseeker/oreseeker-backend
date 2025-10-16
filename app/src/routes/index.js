@@ -5,7 +5,7 @@ const { router: userRouter } = load('@/modules/users');
 
 const router = express.Router({ mergeParams: true });
 
-router.use('/api/users', userRouter);
+router.use('/api/user', userRouter);
 //router.use('/api/playlists', authenticationValidator, playlistsRouter);
 
 module.exports = router;

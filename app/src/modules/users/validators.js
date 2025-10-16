@@ -5,52 +5,16 @@ const { isEmailValid, isUsernameValid, isInvitationCodeValid, isPasswordValid } 
 
 const registrationValidator = async (req, res, next) => {
   const { username, email, invitationCode, password } = req.body;
-  const isUsernameValid = typeof username === 'string' && username.length >= 3 && username.length <= 15;
-  const isEmailValid
-  const result = await checkSchema({
-    username
-      isString: {
-        errorMessage: 'Username is required',
-      },
-      isLength: {
-        options: {
-          min: 3,
-          max: 30,
-        },
-        errorMessage: 'Username must be greater than 3 characters and less than 30 characters',
-      },
-      in: 'body'
-    },
-    email: {
-      isEmail: true,
-      in: 'body'
-    },
-    invitationCode: {
-      isString: {
-        errorMessage: 'Invitation code is required',
-      },
-      in: 'body'
-    },
-    password: {
-      custom: {
-        options(value) {
-          return new RegExp(process.env.PASSWORD_REGEX).test(value);
-        }
-      },
-      in: 'body'
-    }
-  }).run(req);
+  console.log('validator!!!');
+  console.log(username);
+  console.log(isUsernameValid(email));
+  const isValid = isEmailValid(email)
+     && isUsernameValid(username)
+     && await isInvitationCodeValid(invitationCode)
+     && isPasswordValid(password);
 
-  const isError = !result.every(i => i.isEmpty())
-
-  if (isError) {
-    const rs = result.reduce((acc, value) => {
-      if (!value.errors.length) return acc;
-      // TODO приватное свойство, надо поменять
-      acc.push(value.errors);
-      return acc;
-    }, []);
-    res.status(400).send(rs);
+  if (!isValid) {
+    res.status(400).send({ message: 'Invalid payload' });
     return;
   }
 
@@ -59,11 +23,7 @@ const registrationValidator = async (req, res, next) => {
 
 const loginValidator = async (req, res, next) => {
   const { email, password } = req.body;
-
-  const isEmailValid = typeof email === 'string' && email.includes('@');
-  const isPasswordValid = typeof password === 'string' && !!password.length;
-  
-  const isValid = isEmailValid && isPasswordValid;
+  const isValid = isEmailValid(email) && isPasswordValid(password);
 
   if (!isValid) {
     res.status(400).send({ message: 'Invalid email or password' });
@@ -95,8 +55,7 @@ const authenticationValidator = async (req, res, next) => {
 
 async function verificationValidator(req, res, next) {
   const { verificationToken } = req.body; 
-  const isValid = !!verificationToken && typeof verificationToken === 'string';
-
+  const isValid = isVerificationTokenValid(verificationToken);
   if (!isValid) {
     res.status(400).send({ message: 'verificationToken must be a string' });
     return;

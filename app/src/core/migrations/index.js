@@ -23,9 +23,7 @@ class MigrationsManager {
   async runMigrations() {
     const files = fs.readdirSync(resolve('@/migrations')); 
     console.log('files', files);
-    const responses = await Promise.all(files.map(fl => this.#isMigrationInstalled(fl.split('.')[0])));
-    console.log('responses', responses);
-    const uninstalledMigrations = responses.filter(r => !r);
+    const uninstalledMigrations = await Promise.all(files.filter(fl => this.#isMigrationInstalled(fl.split('.')[0])));
     console.log('uninstalledMigrations', uninstalledMigrations);
     for (let i = 0; i < uninstalledMigrations.length; i++) {
       await this.#installMigration(uninstalledMigrations[i]);
@@ -48,12 +46,27 @@ class MigrationsManager {
       )
     `;
     const response = await client.query(query, [migrationTitle]);
-    return !!response.rowCount;
+    return response.rows[0].exists;
   }
 
-  #installMigration(file) {
-    const query = fs.readFileSync(file);
-    return client.query(query);
+  async #installMigration(file) {
+    const query = fs.readFileSync(resolve(`@/migrations/${file}`), 'utf8');
+    const res = await client.query(query);
+    console.log('res?', res);
+    this.#updateInstallationStatus(file.split('.')[0]);
+  }
+
+  async #updateInstallationStatus(migrationTitle) {
+    const query = `
+      INSERT INTO
+        ${this.#migrationsTableTitle} (
+        TITLE
+      ) VALUES (
+        $1
+      )
+    `;
+    
+    await client.query(query, [migrationTitle]);
   }
 }
 

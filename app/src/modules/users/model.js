@@ -200,6 +200,22 @@ function signOut(accessToken) {
   return client.query(query, [accessToken]);
 }
 
+async function invitationCodeExistsAndFree(value) {
+  const query = `
+    SELECT
+      VALUE
+    FROM
+      INVITATION_CODES
+    WHERE
+      VALUE = $1
+  `;
+
+  const res = await client.query(query, [value]);
+  const rows = res.rows;
+  console.log(rows);
+  return false; 
+}
+
 module.exports = {
   isUserRegistered,
   validateSession,
@@ -211,4 +227,5 @@ module.exports = {
   logInByToken,
   signOut,
   createUser,
+  invitationCodeExistsAndFree,
 };
