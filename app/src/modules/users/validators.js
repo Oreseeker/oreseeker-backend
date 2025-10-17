@@ -5,14 +5,10 @@ const { isEmailValid, isUsernameValid, isInvitationCodeValid, isPasswordValid } 
 
 const registrationValidator = async (req, res, next) => {
   const { username, email, invitationCode, password } = req.body;
-  console.log('validator!!!');
-  console.log(username);
-  console.log(isUsernameValid(email));
   const isValid = isEmailValid(email)
-     && isUsernameValid(username)
+     && await isUsernameValid(username)
      && await isInvitationCodeValid(invitationCode)
-     && isPasswordValid(password);
-
+     && await isPasswordValid(password);
   if (!isValid) {
     res.status(400).send({ message: 'Invalid payload' });
     return;

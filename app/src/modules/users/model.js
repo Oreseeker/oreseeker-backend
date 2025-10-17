@@ -14,7 +14,8 @@ async function isUserRegistered(username, email) {
     )
   `;
 
-  const user = client.query(query, [username, email]);
+  const res = await client.query(query, [username, email]);
+  return res.rows[0].exists;
 }
 
 async function createUser({
@@ -23,7 +24,7 @@ async function createUser({
   email,
   verified = false,
   verificationToken = passwordToHash(new Date().getTime().toString()),
-  invitationCode,
+  invitationCodeId,
 }) {
   const passwordHash = passwordToHash(password);
 
@@ -35,7 +36,7 @@ async function createUser({
         EMAIL,
         VERIFIED,
         VERIFICATION_TOKEN,
-        INVITATION_CODE
+        INVITATION_CODE_ID
       ) VALUES (
         $1,
         $2,
@@ -46,17 +47,33 @@ async function createUser({
       )
   `;
 
-  return client.query(query, [username, passwordHash, email, verified, verificationToken, invitationCode]);
+  return client.query(query, [username, passwordHash, email, verified, verificationToken, invitationCodeId]);
 }
 
-async function register(username, email, password) {
-  const isRegistered = await isUserRegistered(username, email);
+async function getInvitationCodeId(invitationCode) {
+ const query = `
+   SELECT 
+     ID
+   FROM
+     INVITATION_CODES
+   WHERE
+     VALUE = $1 
+ `;
 
+  const res = await client.query(query, [invitationCode]);
+  return res.rows[0].ID;
+}
+
+async function register({ username, email, password, invitationCode }) {
+  const isRegistered = await isUserRegistered(username, email);
+  console.log(isRegistered);
   if (isRegistered) return false;
 
-  return createUser({ username, email, password })
+  const invitationCodeId = await getInvitationCodeId(invitationCode);
+
+  return createUser({ username, email, password, invitationCode })
       .then(() => true)
-      .catch(() => false);
+      .catch((r) => console.log(r) && false);
 }
 
 async function createUserSession(userId, userAgent, ipAddress) {
@@ -228,4 +245,5 @@ module.exports = {
   signOut,
   createUser,
   invitationCodeExistsAndFree,
+  getInvitationCodeId,
 };
