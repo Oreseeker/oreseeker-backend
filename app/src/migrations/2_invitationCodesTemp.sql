@@ -1,0 +1,11 @@
+INSERT INTO INVITATION_CODES (
+  VALUE
+) VALUES (
+  'AAA'
+),
+(
+  'BBB'
+),
+(
+  'CCC'
+)

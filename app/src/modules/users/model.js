@@ -202,18 +202,18 @@ function signOut(accessToken) {
 
 async function invitationCodeExistsAndFree(value) {
   const query = `
-    SELECT
-      VALUE
-    FROM
-      INVITATION_CODES
-    WHERE
-      VALUE = $1
+    SELECT EXISTS (
+      SELECT
+         VALUE
+       FROM
+         INVITATION_CODES
+       WHERE
+         VALUE = $1
+    )
   `;
 
   const res = await client.query(query, [value]);
-  const rows = res.rows;
-  console.log(rows);
-  return false; 
+  return res.rows[0].exists;
 }
 
 module.exports = {

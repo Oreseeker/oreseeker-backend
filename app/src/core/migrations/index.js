@@ -22,10 +22,11 @@ class MigrationsManager {
 
   async runMigrations() {
     const files = fs.readdirSync(resolve('@/migrations')).filter(fl => fl.endsWith('.sql'));
-    const uninstalledMigrations = await Promise.all(files.filter(fl => this.#isMigrationInstalled(fl.split('.')[0])));
-    console.log('uninstalledMigrations', uninstalledMigrations);
-    for (let i = 0; i < uninstalledMigrations.length; i++) {
-      await this.#installMigration(uninstalledMigrations[i]);
+    const statuses = await Promise.all(files.map(fl => this.#isMigrationInstalled(fl.split('.')[0])));
+    for (let i = 0; i < statuses.length; i++) {
+      if (statuses[i]) continue;
+      console.log('uninstalled migration', files[i]);
+      await this.#installMigration(files[i]);
     }
   }
 
