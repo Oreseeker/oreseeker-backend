@@ -21,5 +21,5 @@ function getPlaylistValidator(req, res, next) {
 
 module.exports = {
   createPlaylistValidator,
-  getPlaylistController,
+  getPlaylistValidator,
 }
